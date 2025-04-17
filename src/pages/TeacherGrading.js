@@ -116,7 +116,16 @@ export default function TeacherGrading() {
         }}
       >
         {/* Student List */}
-        <Paper sx={{ flex: 1, p: 2 }}>
+        <Paper
+          sx={{
+            flex: 1,
+            p: 2,
+            position: "sticky", // Keep the student list fixed
+            top: 20, // Adjust this value based on your design
+            height: "calc(100vh - 60px)", // Set height to fit screen, minus padding
+            overflowY: "auto", // Allow scrolling for the list if needed
+          }}
+        >
           <Typography variant="h6">Students</Typography>
           <List>
             {students.map((student) => (
