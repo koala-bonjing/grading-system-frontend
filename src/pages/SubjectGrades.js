@@ -9,6 +9,8 @@ import {
   InputLabel,
   Select,
   MenuItem,
+  IconButton,
+  Box,
 } from "@mui/material";
 import {
   Chart as ChartJS,
@@ -22,6 +24,9 @@ import {
   LineElement,
 } from "chart.js";
 import { Doughnut, Bar, Line } from "react-chartjs-2";
+import BarChartIcon from "@mui/icons-material/BarChart";
+import ShowChartIcon from "@mui/icons-material/ShowChart";
+import DonutLargeIcon from "@mui/icons-material/DonutLarge";
 
 // Register chart components
 ChartJS.register(
@@ -70,18 +75,26 @@ function SubjectGrades() {
         {studentData.name}'s Grades Overview
       </Typography>
 
-      <FormControl sx={{ mb: 3, minWidth: 200 }}>
-        <InputLabel>Chart Type</InputLabel>
-        <Select
-          value={chartType}
-          label="Chart Type"
-          onChange={(e) => setChartType(e.target.value)}
+      <Box sx={{ mb: 3, display: "flex", justifyContent: "center", gap: 2 }}>
+        <IconButton
+          color={chartType === "doughnut" ? "primary" : "default"}
+          onClick={() => setChartType("doughnut")}
         >
-          <MenuItem value="doughnut">Pie Chart</MenuItem>
-          <MenuItem value="bar">Bar Chart</MenuItem>
-          <MenuItem value="line">Line Chart</MenuItem>
-        </Select>
-      </FormControl>
+          <DonutLargeIcon />
+        </IconButton>
+        <IconButton
+          color={chartType === "bar" ? "primary" : "default"}
+          onClick={() => setChartType("bar")}
+        >
+          <BarChartIcon />
+        </IconButton>
+        <IconButton
+          color={chartType === "line" ? "primary" : "default"}
+          onClick={() => setChartType("line")}
+        >
+          <ShowChartIcon />
+        </IconButton>
+      </Box>
 
       <Grid container spacing={3}>
         {studentData.subjects.map((subj) => {
@@ -108,7 +121,7 @@ function SubjectGrades() {
           };
 
           return (
-            <Grid xs={12} md={6} lg={4} key={subj.code}>
+            <Grid item xs={12} md={6} lg={4} key={subj.code}>
               <Card elevation={3}>
                 <CardContent>
                   <Typography variant="h6">{subj.subject}</Typography>

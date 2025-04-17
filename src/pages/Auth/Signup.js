@@ -9,6 +9,7 @@ import {
   RadioGroup,
   FormControlLabel,
   Radio,
+  Paper,
 } from "@mui/material";
 
 export default function Signup() {
@@ -21,58 +22,82 @@ export default function Signup() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    // In a real app, you'd send this to a backend
     localStorage.setItem("userRole", formData.role);
-    navigate(
-      formData.role === "teacher" ? "/teacher-grading" : "/student-grades"
-    );
+    navigate("/login");
   };
 
   return (
-    <Container maxWidth="sm">
-      <Box sx={{ mt: 8, textAlign: "center" }}>
-        <Typography variant="h4">Create Account</Typography>
-        <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
-          <TextField
-            fullWidth
-            label="Email"
-            margin="normal"
-            value={formData.email}
-            onChange={(e) =>
-              setFormData({ ...formData, email: e.target.value })
-            }
-          />
-          <TextField
-            fullWidth
-            label="Password"
-            type="password"
-            margin="normal"
-            value={formData.password}
-            onChange={(e) =>
-              setFormData({ ...formData, password: e.target.value })
-            }
-          />
-          <RadioGroup
-            row
-            value={formData.role}
-            onChange={(e) => setFormData({ ...formData, role: e.target.value })}
-            sx={{ justifyContent: "center", mt: 2 }}
-          >
-            <FormControlLabel
-              value="student"
-              control={<Radio />}
-              label="Student"
+    <Box
+      sx={{
+        minHeight: "100vh",
+        backgroundColor: "#f0f4f8",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <Container maxWidth="sm">
+        <Paper
+          elevation={4}
+          sx={{
+            padding: 4,
+            borderRadius: 4,
+            border: "1px solid #d1d5db",
+            backgroundColor: "#ffffff",
+            textAlign: "center",
+          }}
+        >
+          <Typography variant="h4" gutterBottom>
+            Create Account
+          </Typography>
+
+          <Box component="form" onSubmit={handleSubmit}>
+            <TextField
+              fullWidth
+              label="Email"
+              margin="normal"
+              value={formData.email}
+              onChange={(e) =>
+                setFormData({ ...formData, email: e.target.value })
+              }
             />
-            <FormControlLabel
-              value="teacher"
-              control={<Radio />}
-              label="Teacher"
+            <TextField
+              fullWidth
+              label="Password"
+              type="password"
+              margin="normal"
+              value={formData.password}
+              onChange={(e) =>
+                setFormData({ ...formData, password: e.target.value })
+              }
             />
-          </RadioGroup>
-          <Button type="submit" variant="contained" sx={{ mt: 3 }}>
-            Sign Up
-          </Button>
-        </Box>
-      </Box>
-    </Container>
+            <RadioGroup
+              row
+              value={formData.role}
+              onChange={(e) =>
+                setFormData({ ...formData, role: e.target.value })
+              }
+              sx={{ justifyContent: "center", mt: 2 }}
+            >
+              <FormControlLabel
+                value="student"
+                control={<Radio />}
+                label="Student"
+              />
+              <FormControlLabel
+                value="teacher"
+                control={<Radio />}
+                label="Teacher"
+              />
+            </RadioGroup>
+
+            <Button type="submit" variant="contained" sx={{ mt: 3 }} fullWidth>
+              Sign Up
+            </Button>
+          </Box>
+        </Paper>
+      </Container>
+    </Box>
   );
 }

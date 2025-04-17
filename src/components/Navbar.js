@@ -1,4 +1,3 @@
-// src/components/Navbar.jsx
 import {
   AppBar,
   Toolbar,
@@ -12,16 +11,24 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import { Link, useLocation } from "react-router-dom";
-import { useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
 
 export default function Navbar() {
   const location = useLocation();
+  const navigate = useNavigate();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const [anchorEl, setAnchorEl] = useState(null);
+  const [userRole, setUserRole] = useState(null);
 
-  // Hide navbar on login/signup
+  // Always call hooks at the top level
+  useEffect(() => {
+    const storedRole = localStorage.getItem("userRole");
+    setUserRole(storedRole);
+  }, [location]);
+
+  // Now it's safe to conditionally render
   const hideOnRoutes = ["/login", "/signup"];
   if (hideOnRoutes.includes(location.pathname)) return null;
 
@@ -32,12 +39,31 @@ export default function Navbar() {
     setAnchorEl(null);
   };
 
-  const navItems = [
+  const handleLogout = () => {
+    localStorage.removeItem("userRole");
+    navigate("/login");
+  };
+
+  // Define navigation items
+  const baseItems = [
     { label: "Dashboard", path: "/" },
-    { label: "Student Grades", path: "/student-grades" },
-    { label: "Teacher Grading", path: "/teacher-grading" },
+    {
+      label: userRole === "student" ? "My Grades" : "Student Grades", // Change label if student
+      path: "/student-grades",
+    },
     { label: "Courses", path: "/subject-grades" },
-    { label: "Log Out", path: "/login" },
+  ];
+
+  if (userRole === "teacher") {
+    baseItems.splice(2, 0, {
+      label: "Teacher Grading",
+      path: "/teacher-grading",
+    });
+  }
+
+  const navItems = [
+    ...baseItems,
+    { label: "Log Out", path: "/login", action: handleLogout },
   ];
 
   return (
@@ -67,10 +93,13 @@ export default function Navbar() {
             >
               {navItems.map((item) => (
                 <MenuItem
-                  key={item.path}
+                  key={item.label}
                   component={Link}
                   to={item.path}
-                  onClick={handleMenuClose}
+                  onClick={() => {
+                    handleMenuClose();
+                    item.action?.();
+                  }}
                 >
                   {item.label}
                 </MenuItem>
@@ -81,10 +110,11 @@ export default function Navbar() {
           <Box sx={{ display: "flex", gap: 2 }}>
             {navItems.map((item) => (
               <Button
-                key={item.path}
+                key={item.label}
                 color="inherit"
                 component={Link}
                 to={item.path}
+                onClick={item.action}
               >
                 {item.label}
               </Button>
