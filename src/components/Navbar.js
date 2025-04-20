@@ -11,10 +11,11 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
+import { Brightness4, Brightness7 } from "@mui/icons-material";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 
-export default function Navbar() {
+export default function Navbar({ toggleMode, mode }) {
   const location = useLocation();
   const navigate = useNavigate();
   const theme = useTheme();
@@ -22,33 +23,32 @@ export default function Navbar() {
   const [anchorEl, setAnchorEl] = useState(null);
   const [userRole, setUserRole] = useState(null);
 
-  // Always call hooks at the top level
   useEffect(() => {
     const storedRole = localStorage.getItem("userRole");
     setUserRole(storedRole);
   }, [location]);
 
-  // Now it's safe to conditionally render
   const hideOnRoutes = ["/login", "/signup"];
   if (hideOnRoutes.includes(location.pathname)) return null;
 
   const handleMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
+
   const handleMenuClose = () => {
     setAnchorEl(null);
   };
 
   const handleLogout = () => {
     localStorage.removeItem("userRole");
+    setUserRole(null);
     navigate("/login");
   };
 
-  // Define navigation items
   const baseItems = [
     { label: "Dashboard", path: "/" },
     {
-      label: userRole === "student" ? "My Grades" : "Student Grades", // Change label if student
+      label: userRole === "student" ? "My Grades" : "Student Grades",
       path: "/student-grades",
     },
     { label: "Courses", path: "/subject-grades" },
@@ -81,6 +81,12 @@ export default function Navbar() {
               onClick={handleMenuOpen}
               aria-label="menu"
               size="large"
+              sx={{
+                transition: "color 0.3s",
+                "&:hover": {
+                  color: "#f50057",
+                },
+              }}
             >
               <MenuIcon />
             </IconButton>
@@ -104,10 +110,13 @@ export default function Navbar() {
                   {item.label}
                 </MenuItem>
               ))}
+              <MenuItem onClick={toggleMode}>
+                {mode === "dark" ? "Light Mode" : "Dark Mode"}
+              </MenuItem>
             </Menu>
           </>
         ) : (
-          <Box sx={{ display: "flex", gap: 2 }}>
+          <Box sx={{ display: "flex", gap: 2, alignItems: "center" }}>
             {navItems.map((item) => (
               <Button
                 key={item.label}
@@ -119,6 +128,9 @@ export default function Navbar() {
                 {item.label}
               </Button>
             ))}
+            <IconButton sx={{ ml: 1 }} onClick={toggleMode} color="inherit">
+              {mode === "dark" ? <Brightness7 /> : <Brightness4 />}
+            </IconButton>
           </Box>
         )}
       </Toolbar>
