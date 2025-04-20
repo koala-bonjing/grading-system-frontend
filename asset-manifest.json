@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/grading-system-frontend/static/css/main.3b036966.css",
-    "main.js": "/grading-system-frontend/static/js/main.f0925f2e.js",
+    "main.js": "/grading-system-frontend/static/js/main.4289c059.js",
     "static/js/453.990f4ff9.chunk.js": "/grading-system-frontend/static/js/453.990f4ff9.chunk.js",
     "static/media/poppins-latin-400-normal.woff": "/grading-system-frontend/static/media/poppins-latin-400-normal.1458587c0aa7cd06b82b.woff",
     "static/media/poppins-latin-400-normal.woff2": "/grading-system-frontend/static/media/poppins-latin-400-normal.405055dd680fa1dcdfa2.woff2",
@@ -9,11 +9,11 @@
     "static/media/poppins-latin-ext-400-normal.woff2": "/grading-system-frontend/static/media/poppins-latin-ext-400-normal.d7c074a9c34fe9785f69.woff2",
     "index.html": "/grading-system-frontend/index.html",
     "main.3b036966.css.map": "/grading-system-frontend/static/css/main.3b036966.css.map",
-    "main.f0925f2e.js.map": "/grading-system-frontend/static/js/main.f0925f2e.js.map",
+    "main.4289c059.js.map": "/grading-system-frontend/static/js/main.4289c059.js.map",
     "453.990f4ff9.chunk.js.map": "/grading-system-frontend/static/js/453.990f4ff9.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.3b036966.css",
-    "static/js/main.f0925f2e.js"
+    "static/js/main.4289c059.js"
   ]
 }
